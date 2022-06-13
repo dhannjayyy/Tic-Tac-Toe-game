@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Board from "./Components/Board/Board";
 import History from "./Components/History";
+import Status from "./Components/status";
 import { calculateWinner } from "./winner";
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
   return (
     <div className="app">
       <h1>Tic Tac Toe</h1>
-      <h2>{message}</h2>
+      <Status winner={winner} current={current}/>
       <Board board={current.board} handleButtonClick={handleButtonClick} />
       <History history={history} moveTo={moveTo} currentMove={currentMove}/>
     </div>
