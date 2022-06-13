@@ -13,8 +13,14 @@ export function calculateWinner(board){
     for (let i = 0; i < lines.length; i++) {
         const [a,b,c] = lines[i];
         if(board[a] && board[a]===board[b] && board[b]===board[c]){
-            return board[a];
+            return {
+                winner:board[a],
+                winningCombination:[a,b,c]
+            }
         }
     }
-    return null;
+    return {
+        winner:null,
+        winningCombination:[]
+    }
 }

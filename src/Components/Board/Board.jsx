@@ -3,12 +3,15 @@ import Button from "../Button/Button";
 
 
 
-function Board({board,handleButtonClick}) {
+function Board({board,handleButtonClick,winningCombination}) {
     function renderButton(position) {
+      const isWinningButton = winningCombination.includes(position);
+
         return (
             <Button
                 value={board[position]}
                 onClick={() => handleButtonClick(position)}
+                isWinningButton={isWinningButton}
             />
         )
     };
