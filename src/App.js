@@ -1,12 +1,11 @@
 import React, { useState } from "react";
+import Background from "./Components/background";
 import Board from "./Components/Board/Board";
 import History from "./Components/History";
 import Status from "./Components/status";
 import { calculateWinner } from "./winner";
 
-const START_GAME = [
-  { board: Array(9).fill(null), isNextX: true },
-];
+const START_GAME = [{ board: Array(9).fill(null), isNextX: true }];
 
 function App() {
   const [history, setHistory] = useState([
@@ -17,34 +16,33 @@ function App() {
 
   const current = history[currentMove]; //Storing the last move state into current variable
 
-  const {winner,winningCombination} = calculateWinner(current.board);
-
+  const { winner, winningCombination } = calculateWinner(current.board);
 
   const handleButtonClick = (position) => {
     if (current.board[position] || winner) return;
 
     setHistory((prev) => {
       const last = prev[prev.length - 1];
-      
+
       const newBoard = last.board.map((square, pos) => {
         if (pos === position) {
           return last.isNextX ? "O" : "X";
         }
-        
+
         return square;
       });
 
       return prev.concat({ board: newBoard, isNextX: !last.isNextX });
     });
-    
-    setcurrentMove(prevMove=>prevMove+1);
+
+    setcurrentMove((prevMove) => prevMove + 1);
   };
 
-  const moveTo = (move) =>{
+  const moveTo = (move) => {
     setcurrentMove(move);
-  }
+  };
 
-  function startNewGame(){
+  function startNewGame() {
     setHistory(START_GAME);
     setcurrentMove(0);
   }
@@ -56,11 +54,28 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Tic Tac Toe</h1>
-      <Status winner={winner} current={current}/>
-      <Board board={current.board} handleButtonClick={handleButtonClick} winningCombination={winningCombination} />
-      <button type="button" onClick={startNewGame}>Start a new game</button>
-      <History history={history} moveTo={moveTo} currentMove={currentMove}/>
+      <Background />
+      <h1 className={`text-transform`}>
+        Tic <span className={`text-green`}>Tac </span> Toe{" "}
+      </h1>
+      <div className="board-bg">
+        <Status winner={winner} current={current} />
+        <Board
+          board={current.board}
+          handleButtonClick={handleButtonClick}
+          winningCombination={winningCombination}
+        />
+        <button
+          type="button"
+          onClick={startNewGame}
+          className={`btn-reset ${winner ? "active" : " "}`}
+        >
+          Start a new game
+        </button>
+        <h2 style={{ fontWeight: "normal", textAlign:"center" }}>Current Game History</h2>
+        <History history={history} moveTo={moveTo} currentMove={currentMove} />
+      </div>
+        <div className="bg-balls"></div>
     </div>
   );
 }
